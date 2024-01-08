@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CMCapital/config/applicationhost.config
+/.vs/CMCapital/FileContentIndex/112dd9b7-71d2-4107-b90a-6ba3f407deb4.vsidx
+/.vs/CMCapital/v17/.suo
