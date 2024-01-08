@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "XQyqIcZ8x+u4gZtj5TyD28A4cQMrhNrgAs5ID0m4HVKo6BY+UIe0aQdJ5V47mSqnpUfSEm8Uai2SmoCxS4IH9g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\felipe.miranda\\Desktop\\git felipe\\CMCapital\\CMCapital.Server\\CMCapital.Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.0\\microsoft.aspnetcore.spaproxy.8.0.0.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\felipe.miranda\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
