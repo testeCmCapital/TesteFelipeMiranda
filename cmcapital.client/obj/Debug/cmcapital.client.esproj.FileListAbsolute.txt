@@ -1,0 +1,2 @@
+C:\Sources-GITLAB\Testes\CMCapital\cmcapital.client\obj\Debug\cmcapital.client.esproj.CoreCompileInputs.cache
+C:\Users\felipe.miranda\Desktop\git felipe\CMCapital\cmcapital.client\obj\Debug\cmcapital.client.esproj.CoreCompileInputs.cache

@@ -1,0 +1,70 @@
+.text {
+    color: black;
+    font-size: 1.6rem;
+    letter-spacing: .2rem;
+    text-transform: uppercase;
+}
+
+.inputStyle {
+    background-color: transparent;
+    border:none;
+    color: black;
+    /* box-shadow: 6px 4px 6px rgba(250, 234, 177, 0.5);*/
+    /* border-bottom: 1px solid #000;*/ /* Cor da borda inferior */
+    outline: none !important; /* Remove a borda padrão quando o campo está em foco */
+    padding: 5px;
+ /*   width: 20vw !important;*/
+}
+    .inputStyle:focus .input-group input:focus,
+    .form-control:focus {
+        border-color: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+    }
+
+.divInput {
+    border: solid 3px black;
+    background-color: transparent;
+}
+
+.icon{
+    border:none;
+    background-color:transparent;
+}
+
+.btn-primary {
+    border-radius: 0px;
+    background-color: black;
+    border: none;
+    width: 15vw;
+}
+
+    .btn-primary:hover {
+        background-color: #191919 !important; 
+    }
+
+.forgetPass {
+    border: none;
+    font-size: 10px;
+    letter-spacing: .2rem;
+    text-transform: uppercase;
+    background-color: transparent;
+    color: black;
+}
+
+.img {
+    object-fit: cover;
+    width: 50vw;
+    max-height: 70vh;
+}
+
+.swal2-popup {
+    background-color: #4ad295;
+    color: #fff;
+}
+
+body {
+    background-color: #4ad295;
+    margin: 0;
+}
