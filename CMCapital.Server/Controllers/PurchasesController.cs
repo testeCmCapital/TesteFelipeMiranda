@@ -1,7 +1,10 @@
 ﻿using CMCapital.Server.Data;
+using CMCapital.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace CMCapital.Server.Controllers
 {
@@ -9,38 +12,39 @@ namespace CMCapital.Server.Controllers
     [ApiController]
     public class PurchasesController : ControllerBase
     {
-        private DataContext _dataBase;
+        private DataContext _db;
 
         public PurchasesController(DataContext db)
         {
-            _dataBase = db;
+            _db = db;
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult PurchadesProduct(int idProduct, string purchases, int idClient, string? balance)
+        public IActionResult PurchadesProduct(int idProduct, int amount, int idClient)
         {
             try
             {
-                var products = _db.Products.FirstOrDefault(x => x.ID == idProduct);
+                double balance;
+                #region validação dos campos
 
-                if (products != null)
-    
+                if (idProduct <= 0 || amount <= 0 || idClient <= 0)
+                {
                     //é possível melhorar essa validação
                     return BadRequest("All fields must be filled");
                 }
 
                 #endregion
 
-                var products = _dataBase.Products.FirstOrDefault(x => x.ID == idProduct && x.Active == 1);
+                var products = _db.Products.FirstOrDefault(x => x.ID == idProduct && x.Active == 1);
                 List<object> resultResponse = new List<object>();
 
                 if (products != null && products.Amount >= Convert.ToInt32(amount))
                 {
-                    var client = _dataBase.Clients.FirstOrDefault(x => x.ID == idClient && x.Active == 1);
+                    var client = _db.Clients.FirstOrDefault(x => x.ID == idClient && x.Active == 1);
 
                     balance = (double)client.Balance;
-                   
+
                     if (client != null)
                     {
                         double residualBalance = balance * 0.2;
@@ -48,10 +52,10 @@ namespace CMCapital.Server.Controllers
                         double purchaseValue = (double)products.Value * amount;
                         double postPurchase = (double)balance - purchaseValue;
                         bool makePurchase = postPurchase > 0 ? true : false;
-                        
+
                         if (makePurchase)
                         {
-                            bool purchaseHistory = _dataBase.PurchaseHistories.
+                            bool purchaseHistory = _db.PurchaseHistories.
                                 FirstOrDefault(p => p.IDProduct == idProduct && p.Quantities == amount && p.IDClient == idClient) != null ? true : false;
 
                             if (!purchaseHistory)
@@ -68,8 +72,8 @@ namespace CMCapital.Server.Controllers
                                     PurchaseDate = DateTime.UtcNow
                                 };
 
-                                _dataBase.PurchaseHistories.Add(history);
-                                _dataBase.SaveChanges();
+                                _db.PurchaseHistories.Add(history);
+                                _db.SaveChanges();
 
                                 var result = new
                                 {
@@ -94,7 +98,7 @@ namespace CMCapital.Server.Controllers
                         }
                         else
                         {
-                            var productCategory = _dataBase.Products.Where(p => p.IDCategory == products.IDCategory
+                            var productCategory = _db.Products.Where(p => p.IDCategory == products.IDCategory
                             && p.Amount >= amount && p.DueDate <= products.DueDate.AddMonths(-4) && p.Value <= balance && p.Active == 1).ToList();
 
                             if (productCategory.Count == 0)
@@ -117,9 +121,12 @@ namespace CMCapital.Server.Controllers
                                 };
 
                                 return UnprocessableEntity(response);
-                            }   
-
+                            }
                         }
+                    }
+                    else
+                    {
+                        return BadRequest("Client not found");
                     }
                 }
                 else
@@ -127,13 +134,12 @@ namespace CMCapital.Server.Controllers
                     return BadRequest("Product not found");
                 }
 
-                return Ok();
+                return Ok(resultResponse);
             }
             catch
             {
                 return BadRequest("Internal error...");
             }
-            
         }
     }
 }
