@@ -1,10 +1,7 @@
 ﻿using CMCapital.Server.Data;
-using CMCapital.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 namespace CMCapital.Server.Controllers
 {
@@ -21,15 +18,14 @@ namespace CMCapital.Server.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult PurchadesProduct(int idProduct, int amount, int idClient)
+        public IActionResult PurchadesProduct(int idProduct, string purchases, int idClient, string? balance)
         {
             try
             {
-                double balance;
-                #region validação dos campos
+                var products = _db.Products.FirstOrDefault(x => x.ID == idProduct);
 
-                if (idProduct <= 0 || amount <= 0 || idClient <= 0)
-                {
+                if (products != null)
+    
                     //é possível melhorar essa validação
                     return BadRequest("All fields must be filled");
                 }
@@ -122,11 +118,8 @@ namespace CMCapital.Server.Controllers
 
                                 return UnprocessableEntity(response);
                             }   
+
                         }
-                    }
-                    else
-                    {
-                        return BadRequest("Client not found");
                     }
                 }
                 else
@@ -134,12 +127,13 @@ namespace CMCapital.Server.Controllers
                     return BadRequest("Product not found");
                 }
 
-                return Ok(resultResponse);
+                return Ok();
             }
             catch
             {
                 return BadRequest("Internal error...");
             }
+            
         }
     }
 }
