@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CMCapital.Server.Models
+﻿namespace CMCapital.Server.Models
 {
-    [Table("Fees")]
     public class Fees
     {
         public int? ID { get; set; }
