@@ -37,11 +37,5 @@ namespace CMCapital.Server.Controllers
                 return BadRequest("Error processing categories");
             }
         }
-
-        [Authorize]
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
     }
 }

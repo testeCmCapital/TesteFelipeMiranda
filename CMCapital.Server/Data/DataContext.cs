@@ -11,7 +11,7 @@ namespace CMCapital.Server.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<PurchaseHistory> PurchaseHistory { get; set; } 
+        public DbSet<PurchaseHistory> PurchaseHistories { get; set; } 
         public DbSet<Fees> Fees { get; set; }
         public DbSet<Login> Logins { get; set; }   
         public DbSet<SecurityPass> SecurityPass { get; set; }
