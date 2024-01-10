@@ -17,7 +17,7 @@ namespace CMCapital.Server.Controllers
         }
 
         [Authorize]
-        [Route("PurchaseHistory")]
+        [Route("Product")]
         [HttpGet]
         public IActionResult Product()
         {

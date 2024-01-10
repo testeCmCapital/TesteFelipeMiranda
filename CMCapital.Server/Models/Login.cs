@@ -11,9 +11,5 @@ namespace CMCapital.Server.Models
         public int? IDClient { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public int? Active { get; set; }
-
-        [ForeignKey("ID")]
-        public Client? Client { get; set; }
-
     }
 }

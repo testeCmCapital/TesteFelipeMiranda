@@ -24,7 +24,7 @@ namespace CMCapital.Server.Controllers
         [Authorize]
         [Route("PurchaseProduct")]
         [HttpPost]
-        public IActionResult PurchaseProduct([FromQuery] int idProduct, [FromQuery] int amount, [FromQuery] int idClient)
+        public IActionResult PurchaseProduct( int idProduct,  int amount, int idClient)
         {
             try
             {
@@ -73,7 +73,8 @@ namespace CMCapital.Server.Controllers
                                     IDProduct = products.ID,
                                     Quantities = amount,
                                     PurchaseValue = purchaseValue,
-                                    PurchaseDate = DateTime.UtcNow
+                                    PurchaseDate = DateTime.UtcNow,
+                                    Active = 1
                                 };
 
                                 _db.PurchaseHistories.Add(history);

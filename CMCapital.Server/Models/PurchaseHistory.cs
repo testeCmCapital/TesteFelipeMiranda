@@ -14,12 +14,5 @@ namespace CMCapital.Server.Models
         public double? PurchaseValue { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public int? Active { get; set; }
-
-
-        [ForeignKey("ID")]
-        public Client Client { get; set; }
-
-        [ForeignKey("ID")]
-        public Product product { get; set; }
     }
 }
