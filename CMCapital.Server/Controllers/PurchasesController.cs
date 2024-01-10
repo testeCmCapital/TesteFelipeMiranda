@@ -47,10 +47,9 @@ namespace CMCapital.Server.Controllers
                 {
                     var client = _db.Clients.FirstOrDefault(x => x.ID == idClient && x.Active == 1);
 
-                    balance = (double)client.Balance;
-
                     if (client != null)
                     {
+                        balance = (double)client.Balance;
                         double residualBalance = balance * 0.2;
                         balance -= residualBalance;
                         double purchaseValue = (double)products.Value * amount;
