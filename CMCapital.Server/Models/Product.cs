@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMCapital.Server.Models
 {
     [Table("Product")]
     public class Product
     {
+        [Key]
         public int? ID { get; set; }
         public string? ProductName { get; set; }
         public int? IDCategory { get; set; }
@@ -13,5 +15,8 @@ namespace CMCapital.Server.Models
         public int? Amount { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public int? Active { get; set; }
+
+        [ForeignKey("ID")]
+        public Category category { get; set; }
     }
 }

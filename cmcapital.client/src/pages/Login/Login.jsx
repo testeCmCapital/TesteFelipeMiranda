@@ -15,8 +15,6 @@ function Login() {
  
 
     const handleLogin = async () => {
-        //console.log('Usuário:', login);
-        //console.log('Senha:', password);
 
         if (login == '' || password == '') {
             SweetAlert.fire({
@@ -28,9 +26,9 @@ function Login() {
         else {
             try {
                 const response = await axios.post(`https://localhost:7077/api/Aut?login=${login}&password=${password}`);
-                const { token } = response.data;
+                const token  = response.data.result;
                 localStorage.setItem('token', token);
-
+                
                 if (login == "adm") {
                     navigate('/HomeAdm')
                 }

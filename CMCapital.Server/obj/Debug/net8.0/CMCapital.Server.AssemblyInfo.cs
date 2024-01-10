@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CMCapital.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78176e9fa9894cf55d440cae39d42019eeaba4cc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+312c2fbac88e3aed53546ba31b258e475bf792d6")]
 [assembly: System.Reflection.AssemblyProductAttribute("CMCapital.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CMCapital.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

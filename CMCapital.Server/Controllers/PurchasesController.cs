@@ -3,8 +3,10 @@ using CMCapital.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System;
 
 namespace CMCapital.Server.Controllers
 {
@@ -20,12 +22,14 @@ namespace CMCapital.Server.Controllers
         }
 
         [Authorize]
+        [Route("PurchaseProduct")]
         [HttpPost]
-        public IActionResult PurchadesProduct(int idProduct, int amount, int idClient)
+        public IActionResult PurchaseProduct([FromQuery] int idProduct, [FromQuery] int amount, [FromQuery] int idClient)
         {
             try
             {
                 double balance;
+
                 #region validação dos campos
 
                 if (idProduct <= 0 || amount <= 0 || idClient <= 0)
@@ -139,6 +143,300 @@ namespace CMCapital.Server.Controllers
             catch
             {
                 return BadRequest("Internal error...");
+            }
+        }
+
+        [Authorize]
+        [Route("PurchaseHistory")]
+        [HttpGet]
+        public IActionResult PurchaseHistory()
+        {
+            try
+            {
+                var historic = from purchaseHistory in _db.PurchaseHistories
+                               join product in _db.Products on purchaseHistory.IDProduct equals product.ID
+                               join client in _db.Clients on purchaseHistory.IDClient equals client.ID
+                               where purchaseHistory.Active == 1
+                               select new
+                               {
+                                   Id = purchaseHistory.ID,
+                                   Client = client.ClientName,
+                                   Product = product.ProductName,
+                                   Quantities = purchaseHistory.Quantities,
+                                   PurchaseValue = purchaseHistory.PurchaseValue,
+                                   PurchaseDate = purchaseHistory.PurchaseDate
+                               };
+
+                List<Dictionary<string, object>> response = new List<Dictionary<string, object>>();
+
+                if (historic.Count() > 0)
+                {
+                    foreach (var r in historic)
+                    {
+                        var dataCliente = new
+                        {
+                            id = r.Id,
+                            client = r.Client,
+                            product = r.Product,
+                            quantities = r.Quantities,
+                            purchaseValue = r.PurchaseValue,
+                            purchaseDate = r.PurchaseDate
+                        };
+
+                        var result = new Dictionary<string, object>
+                        {
+
+                           { dataCliente.client, dataCliente }
+
+                        };
+
+                        response.Add(result);
+                    }
+                }
+                else
+                {
+                    return Ok("No purchase history found");
+                }
+
+
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("Error processing purchase history");
+            }
+        }
+
+        [Authorize]
+        [Route("HistoryPurchaseClientId/{id}")]
+        [HttpGet]
+
+        public IActionResult HistoryPurchaseClientId(int id)
+        {
+            try
+            {
+                var historic = from purchaseHistory in _db.PurchaseHistories
+                               join product in _db.Products on purchaseHistory.IDProduct equals product.ID
+                               join client in _db.Clients on purchaseHistory.IDClient equals client.ID
+                               where client.ID == id && purchaseHistory.Active == 1
+                               select new
+                               {
+                                   Id = purchaseHistory.ID,
+                                   Client = client.ClientName,
+                                   Product = product.ProductName,
+                                   Quantities = purchaseHistory.Quantities,
+                                   PurchaseValue = purchaseHistory.PurchaseValue,
+                                   PurchaseDate = purchaseHistory.PurchaseDate
+                               };
+
+                List<Dictionary<string, object>> response = new List<Dictionary<string, object>>();
+
+                if (historic.Count() > 0)
+                {
+                    foreach (var r in historic)
+                    {
+                        var dataCliente = new
+                        {
+                            id = r.Id,
+                            client = r.Client,
+                            product = r.Product,
+                            quantities = r.Quantities,
+                            purchaseValue = r.PurchaseValue,
+                            purchaseDate = r.PurchaseDate
+                        };
+
+                        var result = new Dictionary<string, object>
+                        {
+
+                            { dataCliente.client, dataCliente }
+
+                        };
+
+                        response.Add(result);
+                    }
+                }
+                else
+                {
+                    return Ok("No purchase history found");
+                }
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("Error processing purchase history");
+            }
+        }
+
+        [Authorize]
+        [Route("TopSellingProducts")]
+        [HttpGet]
+        public IActionResult TopSellingProducts()
+        {
+            try
+            {
+                var historic = from purchaseHistory in _db.PurchaseHistories
+                               join product in _db.Products on purchaseHistory.IDProduct equals product.ID
+                               join client in _db.Clients on purchaseHistory.IDClient equals client.ID
+                               where purchaseHistory.Active == 1
+                               orderby purchaseHistory.Quantities descending
+                               select new
+                               {
+                                   Id = purchaseHistory.ID,
+                                   Client = client.ClientName,
+                                   Product = product.ProductName,
+                                   Quantities = purchaseHistory.Quantities,
+                                   PurchaseValue = purchaseHistory.PurchaseValue,
+                                   PurchaseDate = purchaseHistory.PurchaseDate
+                               };
+
+                List<Dictionary<string, object>> response = new List<Dictionary<string, object>>();
+
+                if (historic.Count() > 0)
+                {
+                    foreach (var r in historic)
+                    {
+                        var dataCliente = new
+                        {
+                            id = r.Id,
+                            client = r.Client,
+                            product = r.Product,
+                            quantities = r.Quantities,
+                            purchaseValue = r.PurchaseValue,
+                            purchaseDate = r.PurchaseDate
+                        };
+
+                        var result = new Dictionary<string, object>
+                        {
+
+                            { dataCliente.client, dataCliente }
+
+                        };
+
+                        response.Add(result);
+                    }
+                }
+                else
+                {
+                    return Ok("No purchase history found");
+                }
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("Error processing top selling products");
+            }
+        }
+
+        [Authorize]
+        [Route("LeastSellingProducts")]
+        [HttpGet]
+        public IActionResult LeastSellingProducts()
+        {
+            try
+            {
+                var historic = from purchaseHistory in _db.PurchaseHistories
+                               join product in _db.Products on purchaseHistory.IDProduct equals product.ID
+                               join client in _db.Clients on purchaseHistory.IDClient equals client.ID
+                               where purchaseHistory.Active == 1
+                               orderby purchaseHistory.Quantities ascending
+                               select new
+                               {
+                                   Id = purchaseHistory.ID,
+                                   Client = client.ClientName,
+                                   Product = product.ProductName,
+                                   Quantities = purchaseHistory.Quantities,
+                                   PurchaseValue = purchaseHistory.PurchaseValue,
+                                   PurchaseDate = purchaseHistory.PurchaseDate
+                               };
+
+                List<Dictionary<string, object>> response = new List<Dictionary<string, object>>();
+
+                if (historic.Count() > 0)
+                {
+                    foreach (var r in historic)
+                    {
+                        var dataCliente = new
+                        {
+                            id = r.Id,
+                            client = r.Client,
+                            product = r.Product,
+                            quantities = r.Quantities,
+                            purchaseValue = r.PurchaseValue,
+                            purchaseDate = r.PurchaseDate
+                        };
+
+                        var result = new Dictionary<string, object>
+                        {
+
+                            { dataCliente.client, dataCliente }
+
+                        };
+
+                        response.Add(result);
+                    }
+                }
+                else
+                {
+                    return Ok("No purchase history found");
+                }
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest("Error processing top selling products");
+            }
+        }
+
+        [Authorize]
+        [Route("ChargebackCustomer")]
+        [HttpPost]
+        public IActionResult ChargebackCustomer(int idClient, int idPurchase)
+        {
+            try
+            {
+                if (idClient <= 0 || idPurchase <= 0)
+                {
+                    //é possível melhorar essa validação
+                    return BadRequest("All fields must be filled");
+                }
+
+                var purchase = _db.PurchaseHistories.FirstOrDefault(p => p.ID == idPurchase && p.IDClient == idClient && p.Active == 1);
+                
+                if (purchase != null)
+                {
+                    if (DateTime.Now <= purchase.PurchaseDate.Value.AddDays(7))
+                    {
+                        var client = _db.Clients.FirstOrDefault(p => p.ID == idClient && p.Active == 1);
+
+                        if (client != null)
+                        {
+
+                            client.Balance += purchase.PurchaseValue;
+                            purchase.Active = 0;
+
+                            _db.SaveChanges();
+
+                        }
+                        else
+                        {
+                            return BadRequest("Client not found");
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest("It was not possible to make a refund (It has been 7 days since the purchase)");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Purchase not found");
+                }
+
+                return Ok($"refund in the amount {purchase.PurchaseValue} of was made");
+            }
+            catch
+            {
+                return BadRequest("Error when reversing the purchase");
             }
         }
     }
